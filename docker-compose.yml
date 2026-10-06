@@ -1,0 +1,9 @@
+services:
+  kiriman-ayam:
+    build: /Data-NAS/kiriman-ayam
+    container_name: kiriman-ayam-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - /Data-NAS/kiriman-ayam:/app

@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply bg-paper text-ink font-sans;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(31,42,68,0.06) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-card rounded-ticket shadow-ticket border border-ink/5;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg font-semibold
+      transition active:scale-[0.97] disabled:opacity-40 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn bg-ink text-paper px-5 py-3 hover:bg-inksoft;
+  }
+
+  .btn-amber {
+    @apply btn bg-amber text-ink px-5 py-3 hover:bg-amber-deep hover:text-paper;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-ink border border-ink/15 px-4 py-2.5 hover:bg-ink/5;
+  }
+
+  .btn-danger {
+    @apply btn bg-transparent text-rust border border-rust/30 px-4 py-2.5 hover:bg-rust/10;
+  }
+
+  .field-label {
+    @apply text-xs font-semibold uppercase tracking-wider text-muted mb-1.5 block;
+  }
+
+  .field-input {
+    @apply w-full rounded-lg border border-ink/15 bg-card px-4 py-3 text-ink
+      placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-amber/60 focus:border-amber;
+  }
+
+  .stub {
+    @apply font-mono text-sm bg-ink text-paper rounded-md px-2.5 py-1.5 flex items-center gap-2;
+  }
+}
