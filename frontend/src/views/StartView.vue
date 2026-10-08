@@ -70,7 +70,7 @@ const draftActive = ref(null)
 
 onMounted(() => {
   muatKiriman()
-  
+
   // Cek apakah ada draft di localStorage
   const saved = localStorage.getItem('draft_timbangan')
   if (saved) {
@@ -79,7 +79,7 @@ onMounted(() => {
       if (parsed.nilaiList && parsed.nilaiList.length > 0) {
         draftActive.value = parsed
       }
-    } catch(e) {}
+    } catch (e) {}
   }
 })
 
@@ -97,48 +97,64 @@ function lanjutkanDraft() {
 
 <template>
   <div class="max-w-md mx-auto">
-    <div v-if="draftActive" class="card p-4 mb-6 border border-amber/50 bg-amber/5">
+    <!-- Glassmorphic Draft Alert -->
+    <div
+      v-if="draftActive"
+      class="glass-card p-4 mb-6 border border-amber/40 bg-amber-500/10 shadow-[6px_6px_16px_rgba(217,119,6,0.15),-6px_-6px_16px_rgba(255,255,255,0.9)]"
+    >
       <div class="mb-2">
-        <p class="font-bold text-ink text-sm">Ada Sesi Belum Disimpan</p>
-        <p class="text-sm text-muted">
-          {{ draftActive.nama_kiriman }} · PO: <span class="font-mono">{{ draftActive.nomer_po }}</span>
-          <br>Terisi: <span class="font-bold">{{ draftActive.nilaiList.length }} data</span>
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-amber animate-pulse"></span>
+          <p class="font-bold text-ink text-sm">Ada Sesi Belum Disimpan</p>
+        </div>
+        <p class="text-xs text-muted mt-1">
+          {{ draftActive.nama_kiriman }} · PO: <span class="font-mono font-bold text-ink">{{ draftActive.nomer_po }}</span>
+          <br />Terisi: <span class="font-bold text-amber-deep">{{ draftActive.nilaiList.length }} data timbangan</span>
         </p>
       </div>
       <div class="flex gap-2 mt-3">
-        <button class="btn-amber flex-1 py-2 text-sm" @click="lanjutkanDraft">Lanjutkan Sesi</button>
-        <button class="btn-ghost py-2 text-sm" @click="hapusDraft">Hapus Draft</button>
+        <button class="btn-amber flex-1 py-2 text-xs" @click="lanjutkanDraft">Lanjutkan Sesi</button>
+        <button class="btn-ghost py-2 text-xs" @click="hapusDraft">Hapus Draft</button>
       </div>
     </div>
 
+    <!-- Header Section -->
     <div class="mb-6">
-      <p class="font-mono text-xs text-amber-deep font-bold tracking-widest">MULAI SESI BARU</p>
-      <h1 class="text-2xl font-extrabold text-ink mt-1">Input Timbangan Ayam</h1>
-      <p class="text-sm text-muted mt-1">Pilih kiriman, isi nomor PO, lalu tentukan presisi angka sebelum mulai nimbang.</p>
+      <span class="inline-block px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider text-amber-deep bg-amber-400/15 border border-amber-400/30 shadow-neu-xs mb-2">
+        MULAI SESI BARU
+      </span>
+      <h1 class="text-2xl font-extrabold text-ink tracking-tight">Input Timbangan Ayam</h1>
+      <p class="text-xs text-muted mt-1 leading-relaxed">
+        Pilih nama kiriman, isi nomor PO, dan tentukan presisi angka sebelum mulai proses penimbangan.
+      </p>
     </div>
 
-    <div class="card p-5 space-y-5">
+    <!-- Main Glass-Neumorphic Card -->
+    <div class="glass-card p-6 shadow-neu space-y-5 border border-white/80">
+      <!-- Field: Nama Kiriman -->
       <div>
         <label class="field-label">Nama Kiriman</label>
         <div v-if="!mauTambahBaru" class="flex gap-2">
-          <select v-model="namaKiriman" class="field-input" :disabled="loading">
+          <select v-model="namaKiriman" class="field-input cursor-pointer" :disabled="loading">
             <option v-for="k in daftarKiriman" :key="k.id" :value="k.nama_kiriman">
               {{ k.nama_kiriman }}
             </option>
           </select>
-          <button class="btn-ghost whitespace-nowrap" @click="mauTambahBaru = true">+ Baru</button>
+          <button class="btn-ghost whitespace-nowrap !px-3.5" @click="mauTambahBaru = true">
+            + Baru
+          </button>
         </div>
         <div v-else class="flex gap-2">
           <input
             v-model="kirimanBaru"
             class="field-input"
-            placeholder="Nama kiriman baru"
+            placeholder="Nama kiriman baru…"
             @keyup.enter="simpanKirimanBaru"
           />
-          <button class="btn-amber whitespace-nowrap" @click="simpanKirimanBaru">Simpan</button>
+          <button class="btn-amber whitespace-nowrap !px-4" @click="simpanKirimanBaru">Simpan</button>
           <button
             v-if="daftarKiriman.length"
-            class="btn-ghost whitespace-nowrap"
+            class="btn-ghost whitespace-nowrap !px-3"
             @click="mauTambahBaru = false"
           >
             Batal
@@ -146,47 +162,61 @@ function lanjutkanDraft() {
         </div>
       </div>
 
+      <!-- Field: Nomor PO -->
       <div>
         <label class="field-label">Nomor PO</label>
         <input
           v-model="nomerPo"
           class="field-input font-mono"
-          placeholder="Mis. PO-2026-0708-01"
+          placeholder="Misal: PO-2026-0708-01"
           @keyup.enter="mulai"
         />
       </div>
 
+      <!-- Field: Presisi Angka -->
       <div>
         <label class="field-label">Presisi Angka</label>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-2 gap-3 p-1.5 rounded-2xl bg-white/20 backdrop-blur-xl border border-white/60 shadow-[inset_2px_2px_6px_rgba(100,116,139,0.18),inset_-2px_-2px_6px_rgba(255,255,255,0.85)]">
           <button
-            class="btn px-4 py-3 border"
+            type="button"
+            class="py-3.5 px-3 rounded-xl text-xs transition-all duration-200 flex flex-col items-center justify-center gap-0.5 cursor-pointer relative overflow-hidden"
             :class="presisi === 1
-              ? 'bg-ink text-paper border-ink'
-              : 'bg-card text-ink border-ink/15 hover:border-ink/30'"
+              ? 'bg-gradient-to-br from-white/95 via-white/80 to-amber-100/70 text-slate-900 font-extrabold shadow-[0_8px_20px_rgba(31,38,135,0.15),inset_0_1px_2px_rgba(255,255,255,1),0_0_0_1.5px_rgba(245,158,11,0.5)] border border-white/95 scale-[1.02]'
+              : 'bg-white/25 hover:bg-white/45 text-slate-600 hover:text-slate-900 font-semibold border border-white/40 hover:border-white/70 shadow-sm'"
             @click="presisi = 1"
           >
-            1 angka <span class="font-mono opacity-70">(4.1)</span>
+            <div class="flex items-center gap-1.5">
+              <span v-if="presisi === 1" class="w-1.5 h-1.5 rounded-full bg-amber shadow-sm animate-pulse"></span>
+              <span>1 Desimal</span>
+            </div>
+            <span class="font-mono text-[11px]" :class="presisi === 1 ? 'text-amber-deep font-bold' : 'text-slate-500'">(4.1 kg)</span>
           </button>
+
           <button
-            class="btn px-4 py-3 border"
+            type="button"
+            class="py-3.5 px-3 rounded-xl text-xs transition-all duration-200 flex flex-col items-center justify-center gap-0.5 cursor-pointer relative overflow-hidden"
             :class="presisi === 2
-              ? 'bg-ink text-paper border-ink'
-              : 'bg-card text-ink border-ink/15 hover:border-ink/30'"
+              ? 'bg-gradient-to-br from-white/95 via-white/80 to-amber-100/70 text-slate-900 font-extrabold shadow-[0_8px_20px_rgba(31,38,135,0.15),inset_0_1px_2px_rgba(255,255,255,1),0_0_0_1.5px_rgba(245,158,11,0.5)] border border-white/95 scale-[1.02]'
+              : 'bg-white/25 hover:bg-white/45 text-slate-600 hover:text-slate-900 font-semibold border border-white/40 hover:border-white/70 shadow-sm'"
             @click="presisi = 2"
           >
-            2 angka <span class="font-mono opacity-70">(4.15)</span>
+            <div class="flex items-center gap-1.5">
+              <span v-if="presisi === 2" class="w-1.5 h-1.5 rounded-full bg-amber shadow-sm animate-pulse"></span>
+              <span>2 Desimal</span>
+            </div>
+            <span class="font-mono text-[11px]" :class="presisi === 2 ? 'text-amber-deep font-bold' : 'text-slate-500'">(4.15 kg)</span>
           </button>
         </div>
-        <p class="text-xs text-muted mt-2">
-          1 angka pakai tombol cepat 4.1–6.0. 2 angka pakai geser slider biar gak perlu ngetik satu-satu.
+        <p class="text-[11px] text-muted mt-2">
+          Mode 1 desimal menggunakan tombol cepat (4.1–6.0). Mode 2 desimal menggunakan slider analog presisi.
         </p>
       </div>
 
-      <p v-if="errorMsg" class="text-sm text-rust font-medium">{{ errorMsg }}</p>
+      <p v-if="errorMsg" class="text-xs text-rust font-semibold bg-rose-50/80 p-2.5 rounded-lg border border-rose-200/60">{{ errorMsg }}</p>
 
-      <button class="btn-amber w-full text-base py-3.5" @click="mulai">
-        Mulai Input →
+      <!-- Submit CTA Button -->
+      <button class="btn-amber w-full text-sm py-4 rounded-neu-sm mt-2 font-bold tracking-wide shadow-[5px_5px_15px_rgba(217,119,6,0.35),-4px_-4px_12px_rgba(255,255,255,0.9)]" @click="mulai">
+        Mulai Input Timbangan →
       </button>
     </div>
   </div>
