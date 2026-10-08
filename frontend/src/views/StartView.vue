@@ -176,29 +176,35 @@ function lanjutkanDraft() {
       <!-- Field: Presisi Angka -->
       <div>
         <label class="field-label">Presisi Angka</label>
-        <div class="grid grid-cols-2 gap-3 p-1.5 bg-canvas-dark/40 rounded-neu-sm shadow-neu-inset-sm border border-white/40">
+        <div class="grid grid-cols-2 gap-3 p-1.5 rounded-2xl bg-white/20 backdrop-blur-xl border border-white/60 shadow-[inset_2px_2px_6px_rgba(100,116,139,0.18),inset_-2px_-2px_6px_rgba(255,255,255,0.85)]">
           <button
             type="button"
-            class="py-3 px-3 rounded-xl text-xs font-semibold transition-all duration-150 flex flex-col items-center justify-center gap-0.5 cursor-pointer"
+            class="py-3.5 px-3 rounded-xl text-xs transition-all duration-200 flex flex-col items-center justify-center gap-0.5 cursor-pointer relative overflow-hidden"
             :class="presisi === 1
-              ? 'bg-gradient-to-br from-slate-800 to-slate-950 text-white shadow-[3px_3px_8px_rgba(15,23,42,0.4),-2px_-2px_6px_rgba(255,255,255,0.7)] border border-slate-700'
-              : 'text-muted hover:text-ink hover:bg-white/40'"
+              ? 'bg-gradient-to-br from-white/95 via-white/80 to-amber-100/70 text-slate-900 font-extrabold shadow-[0_8px_20px_rgba(31,38,135,0.15),inset_0_1px_2px_rgba(255,255,255,1),0_0_0_1.5px_rgba(245,158,11,0.5)] border border-white/95 scale-[1.02]'
+              : 'bg-white/25 hover:bg-white/45 text-slate-600 hover:text-slate-900 font-semibold border border-white/40 hover:border-white/70 shadow-sm'"
             @click="presisi = 1"
           >
-            <span>1 Desimal</span>
-            <span class="font-mono text-[11px] opacity-75">(4.1 kg)</span>
+            <div class="flex items-center gap-1.5">
+              <span v-if="presisi === 1" class="w-1.5 h-1.5 rounded-full bg-amber shadow-sm animate-pulse"></span>
+              <span>1 Desimal</span>
+            </div>
+            <span class="font-mono text-[11px]" :class="presisi === 1 ? 'text-amber-deep font-bold' : 'text-slate-500'">(4.1 kg)</span>
           </button>
 
           <button
             type="button"
-            class="py-3 px-3 rounded-xl text-xs font-semibold transition-all duration-150 flex flex-col items-center justify-center gap-0.5 cursor-pointer"
+            class="py-3.5 px-3 rounded-xl text-xs transition-all duration-200 flex flex-col items-center justify-center gap-0.5 cursor-pointer relative overflow-hidden"
             :class="presisi === 2
-              ? 'bg-gradient-to-br from-slate-800 to-slate-950 text-white shadow-[3px_3px_8px_rgba(15,23,42,0.4),-2px_-2px_6px_rgba(255,255,255,0.7)] border border-slate-700'
-              : 'text-muted hover:text-ink hover:bg-white/40'"
+              ? 'bg-gradient-to-br from-white/95 via-white/80 to-amber-100/70 text-slate-900 font-extrabold shadow-[0_8px_20px_rgba(31,38,135,0.15),inset_0_1px_2px_rgba(255,255,255,1),0_0_0_1.5px_rgba(245,158,11,0.5)] border border-white/95 scale-[1.02]'
+              : 'bg-white/25 hover:bg-white/45 text-slate-600 hover:text-slate-900 font-semibold border border-white/40 hover:border-white/70 shadow-sm'"
             @click="presisi = 2"
           >
-            <span>2 Desimal</span>
-            <span class="font-mono text-[11px] opacity-75">(4.15 kg)</span>
+            <div class="flex items-center gap-1.5">
+              <span v-if="presisi === 2" class="w-1.5 h-1.5 rounded-full bg-amber shadow-sm animate-pulse"></span>
+              <span>2 Desimal</span>
+            </div>
+            <span class="font-mono text-[11px]" :class="presisi === 2 ? 'text-amber-deep font-bold' : 'text-slate-500'">(4.15 kg)</span>
           </button>
         </div>
         <p class="text-[11px] text-muted mt-2">

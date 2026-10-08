@@ -298,11 +298,11 @@ watch(
     </div>
 
     <!-- Floating Glassmorphic Bottom Save Bar -->
-    <div v-if="!savedOk" class="fixed bottom-0 left-0 right-0 bg-white/75 backdrop-blur-2xl border-t border-white/80 p-4 z-20 shadow-[0_-8px_25px_rgba(163,177,198,0.25)]">
+    <div v-if="!savedOk" class="fixed bottom-0 left-0 right-0 bg-white/50 backdrop-blur-2xl border-t border-white/80 p-4 z-30 shadow-[0_-12px_35px_rgba(31,38,135,0.12)]">
       <div class="max-w-lg mx-auto">
         <button
           type="button"
-          class="btn-primary w-full py-4 text-sm font-bold tracking-wide rounded-neu-sm shadow-[4px_4px_16px_rgba(15,23,42,0.4),-3px_-3px_10px_rgba(255,255,255,0.9)]"
+          class="btn-primary w-full py-4 text-sm font-bold tracking-wide rounded-neu-sm shadow-[0_12px_28px_-4px_rgba(15,23,42,0.4),5px_5px_16px_rgba(15,23,42,0.25),-3px_-3px_10px_rgba(255,255,255,0.9)]"
           :disabled="!nilaiList.length || saving"
           @click="simpanSelesai"
         >

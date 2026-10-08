@@ -4,117 +4,290 @@
 
 @layer base {
   html, body {
-    @apply bg-canvas text-ink font-sans antialiased min-h-screen selection:bg-amber/30;
+    @apply text-ink font-sans antialiased min-h-screen selection:bg-amber/30;
+    /* Rich multi-point colored gradient mesh background */
+    background:
+      radial-gradient(at 0% 0%, rgba(199, 210, 254, 0.7) 0px, transparent 55%),
+      radial-gradient(at 100% 0%, rgba(254, 215, 170, 0.75) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(187, 247, 208, 0.6) 0px, transparent 55%),
+      radial-gradient(at 0% 100%, rgba(251, 207, 232, 0.65) 0px, transparent 55%),
+      radial-gradient(at 50% 50%, rgba(224, 231, 255, 0.5) 0px, transparent 60%),
+      #e2e8f0;
+    background-attachment: fixed;
   }
 }
 
 @layer components {
   /* --- Glassmorphism Surfaces --- */
   .glass-card {
-    @apply bg-white/70 backdrop-blur-xl border border-white/80 rounded-neu shadow-glass;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow:
+      0 16px 36px 0 rgba(31, 38, 135, 0.12),
+      0 3px 6px 0 rgba(0, 0, 0, 0.04),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+    border-radius: 22px;
   }
 
   .glass-card-subtle {
-    @apply bg-white/50 backdrop-blur-md border border-white/60 rounded-neu shadow-sm;
+    background: rgba(255, 255, 255, 0.38);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow:
+      0 8px 20px 0 rgba(31, 38, 135, 0.08),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
   }
 
   .glass-header {
-    @apply bg-white/65 backdrop-blur-2xl border-b border-white/60 shadow-[0_4px_20px_rgba(163,177,198,0.2)];
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(30px) saturate(200%);
+    -webkit-backdrop-filter: blur(30px) saturate(200%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
   }
 
   .glass-hud {
-    @apply bg-white/40 backdrop-blur-xl border border-white/80 rounded-neu shadow-glass relative overflow-hidden;
-    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.25) 100%);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    box-shadow:
+      0 20px 45px 0 rgba(31, 38, 135, 0.14),
+      inset 0 1px 2px 0 rgba(255, 255, 255, 1);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-hud::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, transparent 100%);
+    pointer-events: none;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
   }
 
   .glass-pill {
-    @apply bg-white/60 backdrop-blur-md border border-white/70 px-3 py-1 rounded-full text-xs font-medium text-ink shadow-sm;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 4px 12px 0 rgba(31, 38, 135, 0.06);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1e293b;
   }
 
-  /* --- Neumorphism Tactile Cards & Containers --- */
+  /* --- Neumorphism Tactile Cards & Insets on Glass --- */
   .neu-card {
-    @apply bg-canvas rounded-neu shadow-neu border border-white/60;
-  }
-
-  .neu-card-sm {
-    @apply bg-canvas rounded-neu-sm shadow-neu-sm border border-white/60;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow:
+      8px 8px 24px rgba(148, 163, 184, 0.35),
+      -6px -6px 20px rgba(255, 255, 255, 0.95),
+      inset 0 1px 1px rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
   }
 
   .neu-inset {
-    @apply bg-canvas-dark/60 rounded-neu-sm shadow-neu-inset border border-white/30;
+    background: rgba(230, 237, 248, 0.45);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow:
+      inset 3px 3px 7px rgba(100, 116, 139, 0.22),
+      inset -3px -3px 7px rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
   }
 
-  .neu-well {
-    @apply bg-canvas-dark/50 rounded-neu shadow-neu-inset border border-white/40;
-  }
-
-  /* --- Neumorphic Tactile Buttons --- */
+  /* --- Tactile Glass & Neumorphic Buttons --- */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-neu-sm font-semibold
-      transition-all duration-150 active:scale-[0.98] disabled:opacity-45 disabled:pointer-events-none cursor-pointer;
+    @apply inline-flex items-center justify-center gap-2 font-semibold
+      transition-all duration-150 active:scale-[0.97] disabled:opacity-45 disabled:pointer-events-none cursor-pointer;
+    border-radius: 14px;
   }
 
   .neu-btn {
-    @apply btn bg-gradient-to-br from-white/90 via-canvas to-canvas-dark text-ink
-      shadow-neu-sm border border-white/70 hover:from-white hover:to-canvas
-      active:shadow-neu-inset-sm active:from-canvas-dark active:to-canvas-dark;
+    @apply btn text-ink;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(241, 245, 249, 0.6) 100%);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow:
+      4px 4px 12px rgba(100, 116, 139, 0.16),
+      -3px -3px 10px rgba(255, 255, 255, 0.95);
+  }
+
+  .neu-btn:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.75) 100%);
+  }
+
+  .neu-btn:active {
+    box-shadow:
+      inset 2px 2px 6px rgba(100, 116, 139, 0.22),
+      inset -2px -2px 6px rgba(255, 255, 255, 0.85);
   }
 
   .btn-amber {
-    @apply btn bg-gradient-to-r from-amber to-amber-deep text-white
-      shadow-[4px_4px_12px_rgba(217,119,6,0.35),-3px_-3px_8px_rgba(255,255,255,0.8)]
-      border border-amber-300/40 hover:brightness-105
-      active:shadow-[inset_2px_2px_5px_rgba(180,83,9,0.6),inset_-2px_-2px_5px_rgba(253,230,138,0.3)]
-      active:scale-[0.98];
+    @apply btn text-white font-bold;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+      0 10px 25px -4px rgba(217, 119, 6, 0.45),
+      4px 4px 14px rgba(217, 119, 6, 0.25),
+      -3px -3px 10px rgba(255, 255, 255, 0.85),
+      inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  }
+
+  .btn-amber:hover {
+    filter: brightness(1.06);
+  }
+
+  .btn-amber:active {
+    box-shadow:
+      inset 2px 2px 6px rgba(146, 64, 14, 0.6),
+      inset -2px -2px 6px rgba(251, 191, 36, 0.4);
   }
 
   .btn-primary {
-    @apply btn bg-gradient-to-br from-slate-800 to-slate-950 text-white
-      shadow-[5px_5px_14px_rgba(15,23,42,0.35),-3px_-3px_8px_rgba(255,255,255,0.85)]
-      border border-slate-700/50 hover:brightness-110
-      active:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.7),inset_-2px_-2px_5px_rgba(255,255,255,0.2)]
-      active:scale-[0.98];
+    @apply btn text-white font-bold;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0 12px 28px -4px rgba(15, 23, 42, 0.4),
+      5px 5px 16px rgba(15, 23, 42, 0.25),
+      -3px -3px 10px rgba(255, 255, 255, 0.9),
+      inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  }
+
+  .btn-primary:hover {
+    filter: brightness(1.1);
+  }
+
+  .btn-primary:active {
+    box-shadow:
+      inset 2px 2px 6px rgba(0, 0, 0, 0.7),
+      inset -2px -2px 6px rgba(255, 255, 255, 0.15);
   }
 
   .btn-ghost {
-    @apply btn bg-white/40 text-ink backdrop-blur-sm border border-white/70
-      shadow-neu-xs hover:bg-white/70 active:shadow-neu-inset-sm;
+    @apply btn text-ink font-semibold;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow:
+      3px 3px 10px rgba(100, 116, 139, 0.1),
+      -2px -2px 8px rgba(255, 255, 255, 0.9);
+  }
+
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .btn-ghost:active {
+    box-shadow:
+      inset 2px 2px 5px rgba(100, 116, 139, 0.18),
+      inset -2px -2px 5px rgba(255, 255, 255, 0.85);
   }
 
   .btn-danger {
-    @apply btn bg-rose-50/60 text-rust border border-rose-200/60 backdrop-blur-sm
-      shadow-neu-xs hover:bg-rose-100/80 active:shadow-neu-inset-sm;
+    @apply btn text-rust font-semibold;
+    background: rgba(254, 226, 226, 0.55);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(254, 202, 202, 0.85);
+    box-shadow:
+      3px 3px 10px rgba(220, 38, 38, 0.12),
+      -2px -2px 8px rgba(255, 255, 255, 0.9);
   }
 
-  /* --- Keypad Tactile Buttons (Tombol Cepat) --- */
+  .btn-danger:hover {
+    background: rgba(254, 226, 226, 0.8);
+  }
+
+  .btn-danger:active {
+    box-shadow:
+      inset 2px 2px 5px rgba(185, 28, 28, 0.25),
+      inset -2px -2px 5px rgba(255, 255, 255, 0.85);
+  }
+
+  /* --- Keypad Tactile Glass Buttons (Tombol Cepat) --- */
   .neu-keypad-btn {
     @apply font-mono font-bold rounded-xl py-3.5 text-sm transition-all duration-100
-      flex items-center justify-center cursor-pointer select-none
-      bg-gradient-to-br from-white via-canvas-light to-canvas-dark text-ink
-      shadow-[4px_4px_9px_rgba(163,177,198,0.45),-4px_-4px_9px_rgba(255,255,255,0.95)]
-      border border-white/80 hover:text-amber-deep hover:border-amber-300/60
-      active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.5),inset_-3px_-3px_6px_rgba(255,255,255,0.9)]
-      active:scale-95 active:text-amber-deep;
+      flex items-center justify-center cursor-pointer select-none text-ink;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 245, 255, 0.5) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow:
+      4px 4px 12px rgba(100, 116, 139, 0.18),
+      -3px -3px 9px rgba(255, 255, 255, 0.95),
+      inset 0 1px 1px rgba(255, 255, 255, 0.9);
   }
 
-  /* --- Inputs & Form Fields --- */
+  .neu-keypad-btn:hover {
+    color: #d97706;
+    border-color: rgba(245, 158, 11, 0.4);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(254, 243, 199, 0.6) 100%);
+  }
+
+  .neu-keypad-btn:active {
+    box-shadow:
+      inset 3px 3px 6px rgba(100, 116, 139, 0.25),
+      inset -3px -3px 6px rgba(255, 255, 255, 0.9);
+    transform: scale(0.96);
+    color: #d97706;
+  }
+
+  /* --- Inputs & Form Fields (Debossed Frosted Wells) --- */
   .field-label {
-    @apply text-xs font-bold uppercase tracking-wider text-muted mb-2 block;
+    @apply text-xs font-bold uppercase tracking-wider text-slate-600 mb-2 block;
   }
 
   .field-input {
-    @apply w-full rounded-neu-sm bg-canvas-dark/40 backdrop-blur-md px-4 py-3.5 text-ink
-      placeholder:text-muted/60 border border-white/50 shadow-neu-inset
-      focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber transition-all;
+    @apply w-full px-4 py-3.5 text-ink transition-all;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 14px;
+    box-shadow:
+      inset 2.5px 2.5px 6px rgba(100, 116, 139, 0.18),
+      inset -2.5px -2.5px 6px rgba(255, 255, 255, 0.9);
+  }
+
+  .field-input:focus {
+    outline: none;
+    border-color: rgba(245, 158, 11, 0.7);
+    box-shadow:
+      inset 2px 2px 5px rgba(100, 116, 139, 0.15),
+      inset -2px -2px 5px rgba(255, 255, 255, 0.9),
+      0 0 0 3px rgba(245, 158, 11, 0.25);
   }
 
   .stub {
-    @apply font-mono text-sm bg-white/60 text-ink rounded-lg px-2.5 py-1.5 flex items-center gap-2
-      border border-white/70 shadow-neu-xs;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 2px 6px rgba(31, 38, 135, 0.06);
+    border-radius: 8px;
+    padding: 0.35rem 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 }
 
-/* Custom Range Slider styling for Neumorphism */
+/* Custom Range Slider styling for Neumorphism on Glass */
 input[type="range"] {
   -webkit-appearance: none;
   background: transparent;
@@ -123,9 +296,11 @@ input[type="range"] {
 input[type="range"]::-webkit-slider-runnable-track {
   height: 10px;
   border-radius: 9999px;
-  background: #dfe5ee;
-  box-shadow: inset 2px 2px 5px rgba(163, 177, 198, 0.5), inset -2px -2px 5px rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(203, 213, 225, 0.5);
+  box-shadow:
+    inset 2px 2px 5px rgba(100, 116, 139, 0.25),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -136,11 +311,14 @@ input[type="range"]::-webkit-slider-thumb {
   background: linear-gradient(135deg, #f59e0b, #d97706);
   cursor: pointer;
   margin-top: -7px;
-  box-shadow: 2px 2px 6px rgba(217, 119, 6, 0.4), -2px -2px 6px rgba(255, 255, 255, 0.9);
-  border: 2px solid #ffffff;
+  box-shadow:
+    0 4px 10px rgba(217, 119, 6, 0.4),
+    2px 2px 6px rgba(217, 119, 6, 0.3),
+    -2px -2px 6px rgba(255, 255, 255, 0.9);
+  border: 2.5px solid #ffffff;
   transition: transform 0.1s ease;
 }
 
 input[type="range"]::-webkit-slider-thumb:active {
-  transform: scale(1.15);
+  transform: scale(1.18);
 }
