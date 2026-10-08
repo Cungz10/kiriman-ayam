@@ -116,12 +116,15 @@ watch(
   [nilaiList, namaKiriman, nomerPo, presisi],
   () => {
     if (namaKiriman.value && nomerPo.value && !savedOk.value) {
-      localStorage.setItem('draft_timbangan', JSON.stringify({
-        nama_kiriman: namaKiriman.value,
-        nomer_po: nomerPo.value,
-        presisi: presisi.value,
-        nilaiList: nilaiList.value,
-      }))
+      localStorage.setItem(
+        'draft_timbangan',
+        JSON.stringify({
+          nama_kiriman: namaKiriman.value,
+          nomer_po: nomerPo.value,
+          presisi: presisi.value,
+          nilaiList: nilaiList.value,
+        })
+      )
     }
   },
   { deep: true }
@@ -129,40 +132,56 @@ watch(
 </script>
 
 <template>
-  <div class="max-w-lg mx-auto pb-28">
+  <div class="max-w-lg mx-auto pb-32">
     <div v-if="!savedOk">
-      <div class="flex items-center justify-between mb-4">
+      <!-- Session Header -->
+      <div class="flex items-center justify-between mb-5">
         <div>
-          <p class="font-mono text-xs text-amber-deep font-bold tracking-widest">{{ nomerPo }}</p>
-          <h1 class="text-xl font-extrabold text-ink">{{ namaKiriman }}</h1>
+          <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold text-amber-deep bg-amber-400/15 border border-amber-400/30 shadow-neu-xs mb-1">
+            {{ nomerPo }}
+          </span>
+          <h1 class="text-xl font-extrabold text-ink tracking-tight">{{ namaKiriman }}</h1>
         </div>
-        <span class="text-xs font-mono bg-ink text-paper px-2 py-1 rounded">
+        <span class="glass-pill font-mono">
           {{ presisi }} desimal
         </span>
       </div>
 
-      <!-- Readout ala timbangan digital -->
-      <div class="card px-6 py-8 mb-5 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-[0.04] pointer-events-none"
-             style="background-image: repeating-linear-gradient(90deg, #1F2A44 0 1px, transparent 1px 8px);" />
-        <p class="text-center text-[11px] uppercase tracking-[0.2em] text-muted mb-2">
-          {{ presisi === 2 ? 'Nilai geser saat ini' : 'Nilai terakhir ditambahkan' }}
-        </p>
-        <p class="text-center font-mono font-bold text-ink leading-none"
-           style="font-size: clamp(3rem, 12vw, 4.5rem);">
-          {{ (presisi === 2 ? sliderVal : (lastAdded ?? 0)).toFixed(presisi) }}
-          <span class="text-lg align-top text-muted">kg</span>
-        </p>
+      <!-- Glassmorphic + Neumorphic Digital Scale HUD Display -->
+      <div class="glass-hud px-6 py-7 mb-6 shadow-neu border border-white/90">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-[11px] font-mono font-bold uppercase tracking-widest text-muted">
+            {{ presisi === 2 ? 'Nilai Geser Saat Ini' : 'Nilai Terakhir Ditambahkan' }}
+          </p>
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-leaf/10 border border-leaf/20 text-leaf text-[10px] font-mono font-bold">
+            <span class="w-1.5 h-1.5 rounded-full bg-leaf animate-pulse"></span>
+            ACTIVE
+          </span>
+        </div>
+
+        <div class="neu-inset py-4 px-6 rounded-2xl flex items-baseline justify-center gap-2">
+          <span
+            class="font-mono font-extrabold text-ink tracking-tight leading-none tabular-nums"
+            style="font-size: clamp(3.2rem, 14vw, 4.8rem);"
+          >
+            {{ (presisi === 2 ? sliderVal : (lastAdded ?? 0)).toFixed(presisi) }}
+          </span>
+          <span class="font-mono text-xl font-bold text-muted">kg</span>
+        </div>
       </div>
 
-      <!-- Mode 1: tombol cepat -->
-      <div v-if="presisi === 1" class="card p-4 mb-5">
-        <p class="field-label">Tap nilai timbangan</p>
-        <div class="grid grid-cols-5 gap-2">
+      <!-- Mode 1: Neumorphic Keypad Buttons -->
+      <div v-if="presisi === 1" class="glass-card p-5 mb-6 shadow-neu border border-white/80">
+        <div class="flex items-center justify-between mb-3">
+          <p class="field-label !mb-0">Papan Tombol Cepat (4.1 – 6.0 kg)</p>
+          <span class="text-[10px] text-muted font-mono">Tap untuk input</span>
+        </div>
+        <div class="grid grid-cols-5 gap-2.5">
           <button
             v-for="v in tombolCepat"
             :key="v"
-            class="btn font-mono py-3 border border-ink/10 bg-paperdark/60 hover:bg-amber hover:text-ink hover:border-amber text-ink text-sm"
+            type="button"
+            class="neu-keypad-btn"
             @click="tambahNilai(v)"
           >
             {{ v.toFixed(1) }}
@@ -170,86 +189,124 @@ watch(
         </div>
       </div>
 
-      <!-- Mode 2: slider -->
-      <div v-else class="card p-5 mb-5">
-        <p class="field-label">Geser lalu tambahkan</p>
-        <input
-          type="range"
-          min="4.10"
-          max="6.00"
-          step="0.01"
-          v-model.number="sliderVal"
-          class="w-full accent-amber h-2"
-        />
-        <div class="flex justify-between text-xs font-mono text-muted mt-1 mb-4">
-          <span>4.10</span>
-          <span>5.05</span>
-          <span>6.00</span>
+      <!-- Mode 2: Neumorphic Analog Precision Slider -->
+      <div v-else class="glass-card p-6 mb-6 shadow-neu border border-white/80">
+        <div class="flex items-center justify-between mb-3">
+          <p class="field-label !mb-0">Slider Presisi 2 Desimal</p>
+          <span class="font-mono font-bold text-amber-deep text-sm">{{ sliderVal.toFixed(2) }} kg</span>
         </div>
-        <button class="btn-amber w-full py-3" @click="tambahNilai(sliderVal)">
+
+        <div class="neu-inset p-3 rounded-2xl mb-3">
+          <input
+            type="range"
+            min="4.10"
+            max="6.00"
+            step="0.01"
+            v-model.number="sliderVal"
+            class="w-full cursor-pointer"
+          />
+          <div class="flex justify-between text-[11px] font-mono text-muted mt-2 px-1">
+            <span>4.10 kg</span>
+            <span>5.05 kg</span>
+            <span>6.00 kg</span>
+          </div>
+        </div>
+
+        <button class="btn-amber w-full py-3.5 text-sm font-bold tracking-wide" @click="tambahNilai(sliderVal)">
           + Tambahkan {{ sliderVal.toFixed(2) }} kg
         </button>
       </div>
 
-      <!-- Stats live -->
-      <div class="grid grid-cols-4 gap-2 mb-4">
-        <div class="card py-3 text-center">
-          <p class="text-[10px] uppercase text-muted tracking-wider">Total</p>
-          <p class="font-mono font-bold text-lg">{{ total }}</p>
+      <!-- Live Statistics (Neumorphic Glass Tiles) -->
+      <div class="grid grid-cols-4 gap-2.5 mb-5">
+        <div class="glass-card-subtle py-3 px-2 text-center shadow-neu-xs border border-white/70">
+          <p class="text-[10px] font-mono uppercase text-muted tracking-wider">Total</p>
+          <p class="font-mono font-bold text-lg text-ink tabular-nums">{{ total }}</p>
         </div>
-        <div class="card py-3 text-center">
-          <p class="text-[10px] uppercase text-muted tracking-wider">Sum</p>
-          <p class="font-mono font-bold text-lg">{{ jumlahSum.toFixed(2) }}</p>
+        <div class="glass-card-subtle py-3 px-2 text-center shadow-neu-xs border border-white/70">
+          <p class="text-[10px] font-mono uppercase text-muted tracking-wider">Sum</p>
+          <p class="font-mono font-bold text-lg text-ink tabular-nums">{{ jumlahSum.toFixed(2) }}</p>
         </div>
-        <div class="card py-3 text-center">
-          <p class="text-[10px] uppercase text-muted tracking-wider">Max</p>
-          <p class="font-mono font-bold text-lg text-leaf">{{ nilaiMax.toFixed(2) }}</p>
+        <div class="glass-card-subtle py-3 px-2 text-center shadow-neu-xs border border-white/70">
+          <p class="text-[10px] font-mono uppercase text-muted tracking-wider">Max</p>
+          <p class="font-mono font-bold text-lg text-leaf tabular-nums">{{ nilaiMax.toFixed(2) }}</p>
         </div>
-        <div class="card py-3 text-center">
-          <p class="text-[10px] uppercase text-muted tracking-wider">Min</p>
-          <p class="font-mono font-bold text-lg text-rust">{{ nilaiMin.toFixed(2) }}</p>
+        <div class="glass-card-subtle py-3 px-2 text-center shadow-neu-xs border border-white/70">
+          <p class="text-[10px] font-mono uppercase text-muted tracking-wider">Min</p>
+          <p class="font-mono font-bold text-lg text-rust tabular-nums">{{ nilaiMin.toFixed(2) }}</p>
         </div>
       </div>
 
-      <!-- Daftar nilai -->
-      <div v-if="nilaiList.length" class="mb-5">
-        <p class="field-label">Data terinput ({{ total }})</p>
-        <div class="flex flex-wrap gap-2">
-          <span v-for="(v, i) in nilaiList" :key="i" class="stub">
-            {{ v.toFixed(presisi) }}
-            <button class="opacity-60 hover:opacity-100" @click="hapusIndex(i)">✕</button>
+      <!-- Inputted Values List -->
+      <div v-if="nilaiList.length" class="glass-card p-4 mb-5 shadow-neu-sm border border-white/80">
+        <div class="flex items-center justify-between mb-2.5">
+          <p class="field-label !mb-0">Daftar Data Masuk ({{ total }})</p>
+          <span class="text-[11px] font-mono text-muted">Tap ✕ untuk hapus item</span>
+        </div>
+        <div class="flex flex-wrap gap-2 max-h-44 overflow-y-auto pr-1">
+          <span
+            v-for="(v, i) in nilaiList"
+            :key="i"
+            class="stub font-mono text-xs font-semibold py-1 px-2.5 bg-white/80 shadow-neu-xs"
+          >
+            <span>#{{ i + 1 }}: <strong>{{ v.toFixed(presisi) }}</strong></span>
+            <button
+              type="button"
+              class="text-muted hover:text-rust ml-1 transition cursor-pointer"
+              title="Hapus nilai ini"
+              @click="hapusIndex(i)"
+            >
+              ✕
+            </button>
           </span>
         </div>
       </div>
-      <p v-else class="text-sm text-muted mb-5">Belum ada data. Mulai tap tombol atau geser slider di atas.</p>
-
-      <p v-if="errorMsg" class="text-sm text-rust font-medium mb-3">{{ errorMsg }}</p>
-
-      <div class="flex gap-2">
-        <button class="btn-ghost flex-1" :disabled="!nilaiList.length" @click="undoTerakhir">Undo</button>
-        <button class="btn-danger flex-1" :disabled="!nilaiList.length" @click="resetSemua">Reset</button>
-      </div>
-    </div>
-
-    <!-- Sukses -->
-    <div v-else class="card p-8 text-center">
-      <div class="w-14 h-14 rounded-full bg-leaf/15 text-leaf flex items-center justify-center mx-auto mb-4 text-2xl">✓</div>
-      <h2 class="text-xl font-extrabold mb-1">Tersimpan</h2>
-      <p class="text-sm text-muted mb-6">
-        {{ total }} data dari {{ namaKiriman }} · {{ nomerPo }} berhasil dicatat.
-        Total berat {{ jumlahSum.toFixed(2) }} kg.
+      <p v-else class="text-xs text-muted mb-5 text-center py-2">
+        Belum ada data masuk. Mulai dengan menekan tombol cepat atau slider di atas.
       </p>
-      <div class="flex gap-2 justify-center">
-        <button class="btn-amber" @click="inputBaru">Input Baru</button>
-        <button class="btn-ghost" @click="router.push({ name: 'riwayat' })">Lihat Riwayat</button>
+
+      <p v-if="errorMsg" class="text-xs text-rust font-semibold bg-rose-50/80 p-2.5 rounded-lg border border-rose-200/60 mb-3">
+        {{ errorMsg }}
+      </p>
+
+      <!-- Action Buttons (Undo & Reset) -->
+      <div class="flex gap-3">
+        <button class="btn-ghost flex-1 py-3 text-xs font-bold" :disabled="!nilaiList.length" @click="undoTerakhir">
+          ↶ Undo Terakhir
+        </button>
+        <button class="btn-danger flex-1 py-3 text-xs font-bold" :disabled="!nilaiList.length" @click="resetSemua">
+          ✕ Reset Sesi
+        </button>
       </div>
     </div>
 
-    <!-- Tombol simpan mengambang -->
-    <div v-if="!savedOk" class="fixed bottom-0 left-0 right-0 bg-paper/95 backdrop-blur border-t border-ink/10 p-4">
+    <!-- Success View -->
+    <div v-else class="glass-card p-8 text-center shadow-neu border border-white/90">
+      <div class="w-16 h-16 rounded-2xl bg-leaf/15 text-leaf flex items-center justify-center mx-auto mb-4 text-3xl shadow-neu-sm border border-leaf/20">
+        ✓
+      </div>
+      <h2 class="text-2xl font-extrabold text-ink mb-1">Berhasil Disimpan</h2>
+      <p class="text-xs text-muted max-w-sm mx-auto mb-6 leading-relaxed">
+        Sebanyak <strong class="text-ink">{{ total }} data</strong> dari
+        <strong class="text-ink">{{ namaKiriman }}</strong> (PO: {{ nomerPo }}) telah tercatat ke sistem.
+        Total akumulasi berat: <strong class="text-amber-deep font-mono">{{ jumlahSum.toFixed(2) }} kg</strong>.
+      </p>
+      <div class="flex gap-3 justify-center">
+        <button class="btn-amber !px-6 !py-3 text-sm font-bold" @click="inputBaru">Input Baru</button>
+        <button class="btn-ghost !px-6 !py-3 text-sm font-bold" @click="router.push({ name: 'riwayat' })">Lihat Riwayat</button>
+      </div>
+    </div>
+
+    <!-- Floating Glassmorphic Bottom Save Bar -->
+    <div v-if="!savedOk" class="fixed bottom-0 left-0 right-0 bg-white/75 backdrop-blur-2xl border-t border-white/80 p-4 z-20 shadow-[0_-8px_25px_rgba(163,177,198,0.25)]">
       <div class="max-w-lg mx-auto">
-        <button class="btn-primary w-full py-3.5 text-base" :disabled="!nilaiList.length || saving" @click="simpanSelesai">
-          {{ saving ? 'Menyimpan…' : `Simpan & Selesai (${total} data)` }}
+        <button
+          type="button"
+          class="btn-primary w-full py-4 text-sm font-bold tracking-wide rounded-neu-sm shadow-[4px_4px_16px_rgba(15,23,42,0.4),-3px_-3px_10px_rgba(255,255,255,0.9)]"
+          :disabled="!nilaiList.length || saving"
+          @click="simpanSelesai"
+        >
+          {{ saving ? 'Menyimpan ke Server…' : `Simpan & Selesai (${total} data)` }}
         </button>
       </div>
     </div>

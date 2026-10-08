@@ -63,32 +63,74 @@ onMounted(muat)
 </script>
 
 <template>
-  <div class="max-w-md mx-auto">
+  <div class="max-w-md mx-auto pb-12">
+    <!-- Header -->
     <div class="mb-5">
-      <p class="font-mono text-xs text-amber-deep font-bold tracking-widest">MASTER DATA</p>
-      <h1 class="text-2xl font-extrabold text-ink mt-1">Daftar Kiriman</h1>
+      <span class="inline-block px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider text-amber-deep bg-amber-400/15 border border-amber-400/30 shadow-neu-xs mb-2">
+        MASTER DATA
+      </span>
+      <h1 class="text-2xl font-extrabold text-ink tracking-tight">Daftar Kiriman</h1>
+      <p class="text-xs text-muted mt-1">Kelola daftar varian / jenis kiriman ayam untuk sampling.</p>
     </div>
 
-    <div class="card p-4 mb-4 flex gap-2">
-      <input v-model="namaBaru" class="field-input" placeholder="Nama kiriman baru" @keyup.enter="tambah" />
-      <button class="btn-amber whitespace-nowrap" @click="tambah">+ Tambah</button>
+    <!-- Add Item Bar -->
+    <div class="glass-card p-3.5 mb-5 shadow-neu-sm border border-white/85 flex gap-2">
+      <input
+        v-model="namaBaru"
+        class="field-input text-xs flex-1"
+        placeholder="Nama kiriman baru…"
+        @keyup.enter="tambah"
+      />
+      <button class="btn-amber whitespace-nowrap !px-4 text-xs font-bold" @click="tambah">
+        + Tambah
+      </button>
     </div>
 
-    <p v-if="errorMsg" class="text-sm text-rust font-medium mb-3">{{ errorMsg }}</p>
-    <p v-if="loading" class="text-sm text-muted">Memuat…</p>
-    <div v-else-if="!items.length" class="card p-8 text-center text-muted">Belum ada data kiriman.</div>
+    <p v-if="errorMsg" class="text-xs text-rust font-semibold bg-rose-50/80 p-3 rounded-lg border border-rose-200/60 mb-4">
+      {{ errorMsg }}
+    </p>
 
-    <div v-else class="space-y-2">
-      <div v-for="item in items" :key="item.id" class="card p-3 flex items-center gap-2">
+    <!-- Loading State -->
+    <div v-if="loading" class="glass-card p-8 text-center text-muted shadow-neu-sm border border-white/80">
+      <div class="inline-block w-6 h-6 border-2 border-amber border-t-transparent rounded-full animate-spin mb-2"></div>
+      <p class="text-xs font-mono">Memuat daftar kiriman…</p>
+    </div>
+
+    <!-- Empty State -->
+    <div v-else-if="!items.length" class="glass-card p-8 text-center text-muted shadow-neu-sm border border-white/80">
+      <p class="text-sm font-semibold text-ink mb-1">Belum ada data kiriman</p>
+      <p class="text-xs">Tambahkan jenis kiriman baru di atas untuk mulai.</p>
+    </div>
+
+    <!-- Items List -->
+    <div v-else class="space-y-2.5">
+      <div
+        v-for="item in items"
+        :key="item.id"
+        class="glass-card p-3 sm:p-3.5 flex items-center gap-2 shadow-neu-xs border border-white/80"
+      >
         <template v-if="editId === item.id">
-          <input v-model="editNama" class="field-input flex-1" @keyup.enter="simpanEdit(item)" />
-          <button class="btn-ghost !px-3 !py-1.5 text-xs" @click="simpanEdit(item)">Simpan</button>
-          <button class="btn-ghost !px-3 !py-1.5 text-xs" @click="editId = null">Batal</button>
+          <input
+            v-model="editNama"
+            class="field-input text-xs flex-1 py-2"
+            @keyup.enter="simpanEdit(item)"
+          />
+          <button class="btn-primary !px-3 !py-2 text-xs font-bold" @click="simpanEdit(item)">
+            Simpan
+          </button>
+          <button class="btn-ghost !px-3 !py-2 text-xs font-bold" @click="editId = null">
+            Batal
+          </button>
         </template>
         <template v-else>
-          <p class="flex-1 font-medium">{{ item.nama_kiriman }}</p>
-          <button class="btn-ghost !px-3 !py-1.5 text-xs" @click="mulaiEdit(item)">Edit</button>
-          <button class="btn-danger !px-3 !py-1.5 text-xs" @click="hapus(item)">Hapus</button>
+          <div class="w-2 h-2 rounded-full bg-amber shadow-sm"></div>
+          <p class="flex-1 font-semibold text-ink text-sm truncate">{{ item.nama_kiriman }}</p>
+          <button class="btn-ghost !px-3 !py-1.5 text-xs font-bold" @click="mulaiEdit(item)">
+            Edit
+          </button>
+          <button class="btn-danger !px-3 !py-1.5 text-xs font-bold" @click="hapus(item)">
+            Hapus
+          </button>
         </template>
       </div>
     </div>
