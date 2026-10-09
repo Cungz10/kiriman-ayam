@@ -137,10 +137,10 @@ watch(
       <!-- Session Header -->
       <div class="flex items-center justify-between mb-5">
         <div>
-          <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold text-amber-deep bg-amber-400/15 border border-amber-400/30 shadow-neu-xs mb-1">
+          <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold text-amber-deep bg-white/85 backdrop-blur-md border border-white/95 shadow-sm mb-1">
             {{ nomerPo }}
           </span>
-          <h1 class="text-xl font-extrabold text-ink tracking-tight">{{ namaKiriman }}</h1>
+          <h1 class="text-xl font-extrabold text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">{{ namaKiriman }}</h1>
         </div>
         <span class="glass-pill font-mono">
           {{ presisi }} desimal

@@ -120,11 +120,11 @@ function lanjutkanDraft() {
 
     <!-- Header Section -->
     <div class="mb-6">
-      <span class="inline-block px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider text-amber-deep bg-amber-400/15 border border-amber-400/30 shadow-neu-xs mb-2">
+      <span class="inline-block px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider text-amber-deep bg-white/85 backdrop-blur-md border border-white/95 shadow-sm mb-2">
         MULAI SESI BARU
       </span>
-      <h1 class="text-2xl font-extrabold text-ink tracking-tight">Input Timbangan Ayam</h1>
-      <p class="text-xs text-muted mt-1 leading-relaxed">
+      <h1 class="text-2xl font-extrabold text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">Input Timbangan Ayam</h1>
+      <p class="text-xs text-white/90 mt-1 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
         Pilih nama kiriman, isi nomor PO, dan tentukan presisi angka sebelum mulai proses penimbangan.
       </p>
     </div>

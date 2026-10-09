@@ -3,60 +3,63 @@
 @tailwind utilities;
 
 @layer base {
-  html, body {
+
+  html,
+  body {
     @apply text-ink font-sans antialiased min-h-screen selection:bg-amber/30;
-    /* Rich multi-point colored gradient mesh background */
-    background:
-      radial-gradient(at 0% 0%, rgba(199, 210, 254, 0.7) 0px, transparent 55%),
-      radial-gradient(at 100% 0%, rgba(254, 215, 170, 0.75) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(187, 247, 208, 0.6) 0px, transparent 55%),
-      radial-gradient(at 0% 100%, rgba(251, 207, 232, 0.65) 0px, transparent 55%),
-      radial-gradient(at 50% 50%, rgba(224, 231, 255, 0.5) 0px, transparent 60%),
-      #e2e8f0;
+    background-color: #0b1329;
+    /* Photographic background with measured cinematic overlay scrim */
+    background-image:
+      linear-gradient(rgba(11, 19, 41, 0.5), rgba(11, 19, 41, 0.55)),
+      url('/background.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
     background-attachment: fixed;
   }
 }
 
 @layer components {
-  /* --- Glassmorphism Surfaces --- */
+
+  /* --- Glassmorphism Surfaces on Photo Backdrop --- */
   .glass-card {
-    background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(28px) saturate(190%);
-    -webkit-backdrop-filter: blur(28px) saturate(190%);
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(26px) saturate(190%);
+    -webkit-backdrop-filter: blur(26px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.9);
     box-shadow:
-      0 16px 36px 0 rgba(31, 38, 135, 0.12),
-      0 3px 6px 0 rgba(0, 0, 0, 0.04),
-      inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+      0 20px 45px 0 rgba(0, 0, 0, 0.32),
+      0 4px 12px 0 rgba(0, 0, 0, 0.12),
+      inset 0 1px 1.5px 0 rgba(255, 255, 255, 1);
     border-radius: 22px;
   }
 
   .glass-card-subtle {
-    background: rgba(255, 255, 255, 0.38);
+    background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.85);
     box-shadow:
-      0 8px 20px 0 rgba(31, 38, 135, 0.08),
-      inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+      0 10px 24px 0 rgba(0, 0, 0, 0.16),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
     border-radius: 16px;
   }
 
   .glass-header {
-    background: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(30px) saturate(200%);
     -webkit-backdrop-filter: blur(30px) saturate(200%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   }
 
   .glass-hud {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.25) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.55) 100%);
     backdrop-filter: blur(32px) saturate(200%);
     -webkit-backdrop-filter: blur(32px) saturate(200%);
-    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    border: 1.5px solid rgba(255, 255, 255, 0.95);
     box-shadow:
-      0 20px 45px 0 rgba(31, 38, 135, 0.14),
+      0 24px 50px 0 rgba(0, 0, 0, 0.32),
       inset 0 1px 2px 0 rgba(255, 255, 255, 1);
     border-radius: 24px;
     position: relative;
@@ -69,19 +72,19 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 40%;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, transparent 100%);
+    height: 45%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, transparent 100%);
     pointer-events: none;
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
   }
 
   .glass-pill {
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    box-shadow: 0 4px 12px 0 rgba(31, 38, 135, 0.06);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     font-size: 0.75rem;
@@ -89,64 +92,52 @@
     color: #1e293b;
   }
 
-  /* --- Neumorphism Tactile Cards & Insets on Glass --- */
-  .neu-card {
-    background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    box-shadow:
-      8px 8px 24px rgba(148, 163, 184, 0.35),
-      -6px -6px 20px rgba(255, 255, 255, 0.95),
-      inset 0 1px 1px rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-  }
-
+  /* --- Inset Wells on Frosted Glass --- */
   .neu-inset {
-    background: rgba(230, 237, 248, 0.45);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(235, 241, 250, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.75);
     box-shadow:
       inset 3px 3px 7px rgba(100, 116, 139, 0.22),
-      inset -3px -3px 7px rgba(255, 255, 255, 0.9);
+      inset -3px -3px 7px rgba(255, 255, 255, 0.95);
     border-radius: 16px;
   }
 
-  /* --- Tactile Glass & Neumorphic Buttons --- */
+  /* --- Buttons --- */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 font-semibold
-      transition-all duration-150 active:scale-[0.97] disabled:opacity-45 disabled:pointer-events-none cursor-pointer;
+    @apply inline-flex items-center justify-center gap-2 font-semibold transition-all duration-150 active:scale-[0.97] disabled:opacity-45 disabled:pointer-events-none cursor-pointer;
     border-radius: 14px;
   }
 
   .neu-btn {
     @apply btn text-ink;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(241, 245, 249, 0.6) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(241, 245, 249, 0.75) 100%);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.95);
     box-shadow:
-      4px 4px 12px rgba(100, 116, 139, 0.16),
-      -3px -3px 10px rgba(255, 255, 255, 0.95);
+      4px 4px 12px rgba(0, 0, 0, 0.15),
+      -3px -3px 10px rgba(255, 255, 255, 0.9);
   }
 
   .neu-btn:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.75) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.85) 100%);
   }
 
   .neu-btn:active {
     box-shadow:
-      inset 2px 2px 6px rgba(100, 116, 139, 0.22),
-      inset -2px -2px 6px rgba(255, 255, 255, 0.85);
+      inset 2px 2px 6px rgba(100, 116, 139, 0.24),
+      inset -2px -2px 6px rgba(255, 255, 255, 0.9);
   }
 
   .btn-amber {
     @apply btn text-white font-bold;
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     box-shadow:
-      0 10px 25px -4px rgba(217, 119, 6, 0.45),
-      4px 4px 14px rgba(217, 119, 6, 0.25),
-      -3px -3px 10px rgba(255, 255, 255, 0.85),
-      inset 0 1px 1px rgba(255, 255, 255, 0.4);
+      0 10px 25px -4px rgba(217, 119, 6, 0.5),
+      4px 4px 14px rgba(217, 119, 6, 0.3),
+      -2px -2px 8px rgba(255, 255, 255, 0.8),
+      inset 0 1px 1px rgba(255, 255, 255, 0.45);
   }
 
   .btn-amber:hover {
@@ -162,12 +153,12 @@
   .btn-primary {
     @apply btn text-white font-bold;
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.35);
     box-shadow:
-      0 12px 28px -4px rgba(15, 23, 42, 0.4),
-      5px 5px 16px rgba(15, 23, 42, 0.25),
-      -3px -3px 10px rgba(255, 255, 255, 0.9),
-      inset 0 1px 1px rgba(255, 255, 255, 0.25);
+      0 12px 28px -4px rgba(15, 23, 42, 0.5),
+      5px 5px 16px rgba(15, 23, 42, 0.3),
+      -2px -2px 8px rgba(255, 255, 255, 0.85),
+      inset 0 1px 1px rgba(255, 255, 255, 0.3);
   }
 
   .btn-primary:hover {
@@ -177,67 +168,66 @@
   .btn-primary:active {
     box-shadow:
       inset 2px 2px 6px rgba(0, 0, 0, 0.7),
-      inset -2px -2px 6px rgba(255, 255, 255, 0.15);
+      inset -2px -2px 6px rgba(255, 255, 255, 0.2);
   }
 
   .btn-ghost {
     @apply btn text-ink font-semibold;
-    background: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.9);
     box-shadow:
-      3px 3px 10px rgba(100, 116, 139, 0.1),
+      3px 3px 10px rgba(0, 0, 0, 0.08),
       -2px -2px 8px rgba(255, 255, 255, 0.9);
   }
 
   .btn-ghost:hover {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.85);
   }
 
   .btn-ghost:active {
     box-shadow:
-      inset 2px 2px 5px rgba(100, 116, 139, 0.18),
-      inset -2px -2px 5px rgba(255, 255, 255, 0.85);
+      inset 2px 2px 5px rgba(100, 116, 139, 0.2),
+      inset -2px -2px 5px rgba(255, 255, 255, 0.9);
   }
 
   .btn-danger {
     @apply btn text-rust font-semibold;
-    background: rgba(254, 226, 226, 0.55);
+    background: rgba(254, 226, 226, 0.75);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(254, 202, 202, 0.85);
+    border: 1px solid rgba(254, 202, 202, 0.95);
     box-shadow:
-      3px 3px 10px rgba(220, 38, 38, 0.12),
+      3px 3px 10px rgba(220, 38, 38, 0.15),
       -2px -2px 8px rgba(255, 255, 255, 0.9);
   }
 
   .btn-danger:hover {
-    background: rgba(254, 226, 226, 0.8);
+    background: rgba(254, 226, 226, 0.9);
   }
 
   .btn-danger:active {
     box-shadow:
       inset 2px 2px 5px rgba(185, 28, 28, 0.25),
-      inset -2px -2px 5px rgba(255, 255, 255, 0.85);
+      inset -2px -2px 5px rgba(255, 255, 255, 0.9);
   }
 
   /* --- Keypad Tactile Glass Buttons (Tombol Cepat) --- */
   .neu-keypad-btn {
-    @apply font-mono font-bold rounded-xl py-3.5 text-sm transition-all duration-100
-      flex items-center justify-center cursor-pointer select-none text-ink;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 245, 255, 0.5) 100%);
+    @apply font-mono font-bold rounded-xl py-3.5 text-sm transition-all duration-100 flex items-center justify-center cursor-pointer select-none text-ink;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 245, 255, 0.65) 100%);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.98);
     box-shadow:
-      4px 4px 12px rgba(100, 116, 139, 0.18),
-      -3px -3px 9px rgba(255, 255, 255, 0.95),
-      inset 0 1px 1px rgba(255, 255, 255, 0.9);
+      4px 4px 12px rgba(0, 0, 0, 0.12),
+      -3px -3px 8px rgba(255, 255, 255, 0.95),
+      inset 0 1px 1px rgba(255, 255, 255, 1);
   }
 
   .neu-keypad-btn:hover {
     color: #d97706;
-    border-color: rgba(245, 158, 11, 0.4);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(254, 243, 199, 0.6) 100%);
+    border-color: rgba(245, 158, 11, 0.5);
+    background: linear-gradient(135deg, #ffffff 0%, rgba(254, 243, 199, 0.8) 100%);
   }
 
   .neu-keypad-btn:active {
@@ -248,25 +238,26 @@
     color: #d97706;
   }
 
-  /* --- Inputs & Form Fields (Debossed Frosted Wells) --- */
+  /* --- Inputs & Form Fields (Debossed Wells on Glass) --- */
   .field-label {
-    @apply text-xs font-bold uppercase tracking-wider text-slate-600 mb-2 block;
+    @apply text-xs font-bold uppercase tracking-wider text-slate-700 mb-2 block;
   }
 
   .field-input {
     @apply w-full px-4 py-3.5 text-ink transition-all;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.85);
     border-radius: 14px;
     box-shadow:
-      inset 2.5px 2.5px 6px rgba(100, 116, 139, 0.18),
-      inset -2.5px -2.5px 6px rgba(255, 255, 255, 0.9);
+      inset 2.5px 2.5px 6px rgba(100, 116, 139, 0.2),
+      inset -2.5px -2.5px 6px rgba(255, 255, 255, 0.95);
   }
 
   .field-input:focus {
     outline: none;
+    background: rgba(255, 255, 255, 0.85);
     border-color: rgba(245, 158, 11, 0.7);
     box-shadow:
       inset 2px 2px 5px rgba(100, 116, 139, 0.15),
@@ -275,10 +266,10 @@
   }
 
   .stub {
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    box-shadow: 0 2px 6px rgba(31, 38, 135, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     border-radius: 8px;
     padding: 0.35rem 0.65rem;
     display: inline-flex;
@@ -287,7 +278,7 @@
   }
 }
 
-/* Custom Range Slider styling for Neumorphism on Glass */
+/* Custom Range Slider styling */
 input[type="range"] {
   -webkit-appearance: none;
   background: transparent;
@@ -296,11 +287,11 @@ input[type="range"] {
 input[type="range"]::-webkit-slider-runnable-track {
   height: 10px;
   border-radius: 9999px;
-  background: rgba(203, 213, 225, 0.5);
+  background: rgba(203, 213, 225, 0.65);
   box-shadow:
     inset 2px 2px 5px rgba(100, 116, 139, 0.25),
-    inset -2px -2px 5px rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+    inset -2px -2px 5px rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.75);
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -312,8 +303,8 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
   margin-top: -7px;
   box-shadow:
-    0 4px 10px rgba(217, 119, 6, 0.4),
-    2px 2px 6px rgba(217, 119, 6, 0.3),
+    0 4px 10px rgba(217, 119, 6, 0.5),
+    2px 2px 6px rgba(217, 119, 6, 0.35),
     -2px -2px 6px rgba(255, 255, 255, 0.9);
   border: 2.5px solid #ffffff;
   transition: transform 0.1s ease;

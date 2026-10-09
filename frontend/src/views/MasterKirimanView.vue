@@ -66,11 +66,11 @@ onMounted(muat)
   <div class="max-w-md mx-auto pb-12">
     <!-- Header -->
     <div class="mb-5">
-      <span class="inline-block px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider text-amber-deep bg-amber-400/15 border border-amber-400/30 shadow-neu-xs mb-2">
+      <span class="inline-block px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider text-amber-deep bg-white/85 backdrop-blur-md border border-white/95 shadow-sm mb-2">
         MASTER DATA
       </span>
-      <h1 class="text-2xl font-extrabold text-ink tracking-tight">Daftar Kiriman</h1>
-      <p class="text-xs text-muted mt-1">Kelola daftar varian / jenis kiriman ayam untuk sampling.</p>
+      <h1 class="text-2xl font-extrabold text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">Daftar Kiriman</h1>
+      <p class="text-xs text-white/90 mt-1 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">Kelola daftar varian / jenis kiriman ayam untuk sampling.</p>
     </div>
 
     <!-- Add Item Bar -->
