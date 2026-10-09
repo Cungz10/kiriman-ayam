@@ -3,20 +3,22 @@ FROM node:20-alpine AS frontend-build
 
 WORKDIR /build
 
-# Copy frontend files
+# Copy manifest dulu supaya layer npm ci ke-cache
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
 
 COPY frontend/ .
 RUN npm run build
-# Hasil build ada di /build/../public → karena outDir: '../public'
-# Vite outputnya relatif ke WORKDIR, jadi hasilnya di /public
+# outDir: '../public' → hasil build ada di /public
 
 # ── Stage 2: Laravel PHP App ────────────────────────────────────────
 FROM php:8.3-cli
 
-# Install dependencies & PHP extensions yang dibutuhkan Laravel
-RUN apt-get update && apt-get install -y \
+# Dependencies & ekstensi PHP untuk Laravel
+# - --no-install-recommends: skip paket "rekomendasi" yang nggak perlu
+# - -j$(nproc): compile ekstensi paralel (lebih cepat)
+# - git tetap ada demi aman; hapus kalau semua paket composer ter-install via dist
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
@@ -24,25 +26,28 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd \
+    && docker-php-ext-install -j"$(nproc)" pdo_mysql mbstring exif pcntl bcmath gd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy composer dari official image
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Composer dipin ke major version 2 (bukan latest)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copy seluruh kodingan backend ke container
+# Layer vendor: hanya rebuild kalau composer.json / composer.lock berubah
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader --no-interaction --prefer-dist
+
+# Kodingan backend
 COPY . .
 
-# Copy hasil build frontend ke folder public Laravel
+# Hasil build frontend → public Laravel
 COPY --from=frontend-build /public/index.html /app/public/index.html
 COPY --from=frontend-build /public/assets /app/public/assets
 
-# Install PHP dependencies (tanpa dev)
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Finalisasi autoload + jalankan package:discover (butuh kode lengkap)
+RUN composer dump-autoload --no-dev --optimize --no-interaction
 
 EXPOSE 8000
 
-# Command buat jalanin Laravel artisan serve
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
